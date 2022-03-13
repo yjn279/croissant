@@ -1,3 +1,4 @@
 from django.contrib import admin
+from croissant.models import Layer
 
-# Register your models here.
+admin.site.register(Layer)
