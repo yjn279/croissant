@@ -5,4 +5,4 @@ from croissant.models import Layer
 class LayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Layer
-        fields = ['id', 'title', 'text']
+        fields = ['id', 'title', 'text', 'layers', 'participants', 'creator', 'created', 'edited']
