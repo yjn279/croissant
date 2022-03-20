@@ -41,4 +41,4 @@ class LayerSerializer(serializers.ModelSerializer):
 # class EndSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = End
-        fields = ['id', 'date', 'time', 'created']
+#         fields = ['id', 'date', 'time', 'created']
