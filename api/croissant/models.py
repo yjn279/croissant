@@ -5,7 +5,7 @@ from django.db import models
 class Layer(models.Model):
     title = models.CharField(max_length=64, blank=True, default='')
     description = models.TextField(blank=True, default='')
-    children = models.ManyToManyField('self', blank=True)  # blank?
+    children = models.ManyToManyField('self', blank=True)
     tasks = models.PositiveIntegerField(default=1)
     progress = models.PositiveIntegerField(default=0)
     owner = models.ForeignKey(get_user_model(), related_name='own', on_delete=models.CASCADE)  # 自身を自動で入れる
