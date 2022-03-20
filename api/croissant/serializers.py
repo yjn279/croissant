@@ -7,5 +7,4 @@ class LayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Layer
-        fields = ['title', 'description', 'edited']
-        read_only_fields = ['id', 'owner', 'created']
+        fields = '__all__'
