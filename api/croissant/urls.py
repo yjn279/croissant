@@ -10,7 +10,7 @@ LIST_METHODS = {
 ITEM_METHODS = {
     'get': 'retrieve',
     'put': 'update',
-    # 'patch', 'partial_update',
+    # 'patch': 'partial_update',
     'delete': 'destroy',
 }
 
