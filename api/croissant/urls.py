@@ -1,4 +1,3 @@
-from pickle import LIST
 from django.urls import path
 from croissant import views
 
@@ -17,6 +16,6 @@ ITEM_METHODS = {
 
 
 urlpatterns = [
-    path('layers/', views.Layers.as_view(LIST_METHODS)),
-    # path('layers/<int:pk>/', views.Layer.as_view(ITEM_METHODS)),
+    path('layers/', views.LayerViewSet.as_view(LIST_METHODS)),
+    path('layers/<int:pk>/', views.LayerViewSet.as_view(ITEM_METHODS)),
 ]
