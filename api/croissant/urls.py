@@ -16,6 +16,6 @@ ITEM_METHODS = {
 
 
 urlpatterns = [
-    path('layers/', views.LayerViewSet.as_view(LIST_METHODS)),
-    path('layers/<int:pk>/', views.LayerViewSet.as_view(ITEM_METHODS)),
+    path('layers/', views.LayersViewSet.as_view(LIST_METHODS)),
+    # path('layers/<int:pk>/', views.LayerViewSet.as_view()),
 ]
