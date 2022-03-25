@@ -1,5 +1,3 @@
-from dataclasses import field
-from venv import create
 from rest_framework import serializers
 from croissant.models import Layer, Start
 
@@ -11,8 +9,7 @@ class StartSerializer(serializers.ModelSerializer):
 
 
 class LayersSerializer(serializers.ModelSerializer):
-    # start = StartSerializer()
-    start = serializers.PrimaryKeyRelatedField(many=True)
+    start = StartSerializer()
     
     class Meta:
         model = Layer
@@ -20,9 +17,8 @@ class LayersSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         start_data = validated_data.pop('start')
-        
         layer = super().create(validated_data)
         start_data['layer'] = layer
         start = Start.objects.create(**start_data)
-        layer.start.set(start)
+        layer.start.add(start)
         return layer
