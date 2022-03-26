@@ -7,9 +7,8 @@ class StartSerializer(serializers.ModelSerializer):
         model = Start
         fields = '__all__'
 
-
-class LayersSerializer(serializers.ModelSerializer):
-    start = StartSerializer()
+class LayerSerializer(serializers.ModelSerializer):
+    start = StartSerializer(many=True)
     
     class Meta:
         model = Layer
@@ -18,7 +17,5 @@ class LayersSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         start_data = validated_data.pop('start')
         layer = super().create(validated_data)
-        start_data['layer'] = layer
-        start = Start.objects.create(**start_data)
-        layer.start.add(start)
+        layer.start.create(**start_data[0], layer=layer)
         return layer

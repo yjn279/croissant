@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.db import models
 
 
@@ -6,8 +5,8 @@ class Layer(models.Model):
     title = models.CharField(max_length=64, blank=True, default='')
     description = models.TextField(blank=True, default='')
     # children = models.ManyToManyField('self', blank=True)
-    tasks = models.PositiveIntegerField(default=1)
-    progress = models.PositiveIntegerField(default=0)
+    # tasks = models.PositiveIntegerField(default=1)
+    # progress = models.PositiveIntegerField(default=0)
     # owner = models.ForeignKey(get_user_model(), related_name='own', on_delete=models.CASCADE)  # 自身を自動で入れる  なぜかIDでなくnameになる
     # participants = models.ManyToManyField(get_user_model(), related_name='participate', blank=True)  # デフォルトを自身に
     # end_date = models.DateField(null=True)
@@ -18,8 +17,8 @@ class Layer(models.Model):
     def __str__(self):
         return self.title
 
-    class Meta:
-        ordering = ['created']
+    # class Meta:
+    #     ordering = ['created']
 
 
 # class Child(models.Model):
@@ -35,10 +34,10 @@ class Layer(models.Model):
 
 
 class Start(models.Model):
-    layer = models.ForeignKey(Layer, related_name='start', on_delete=models.CASCADE, blank=True)
+    layer = models.ForeignKey(Layer, related_name='start', on_delete=models.CASCADE, null=True)
     date = models.DateField(null=True)
     time = models.TimeField(null=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.date
+        return 'test'
