@@ -17,7 +17,7 @@ class LayersView(APIView):
             data['starta_time'] = data['start'][0]['time']
             _ = data.pop('start')
             datas.append(layer.data)
-        return Response(data)
+        return Response(datas)
 
     def post(self, request, format=None):
         start_time = request.data.pop('start_time')
