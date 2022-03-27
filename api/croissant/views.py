@@ -14,16 +14,13 @@ class LayersView(APIView):
         data = []
         for layer in Layer.objects.all():
 
-            # Start
             start = StartSerializer(layer.start.latest('created')).data
+            layer = LayerSerializer(layer).data
+
             start['start_date'] = start['date']
             start['start_time'] = start['time']
+
             del start['id'], start['layer'], start['date'], start['time']
-
-            # Layer
-            layer = LayerSerializer(layer).data
-            del layer['start']
-
             data.append({**layer, **start})
 
         return Response(data)
@@ -31,19 +28,30 @@ class LayersView(APIView):
 
     def post(self, request, format=None):
 
-        # Start
-        start_date = request.data.pop('start_date')
-        start_time = request.data.pop('start_time')
-        request.data['start'] = [{'date': start_date, 'time': start_time}]
+        start = {
+            'date': request.data.pop('start_date'),
+            'time': request.data.pop('start_time')
+        }
 
         # Layer
-        layer_serializer = LayerSerializer(data=request.data)
+        layer = LayerSerializer(data=request.data)
 
-        if layer_serializer.is_valid():
-            layer_serializer.save()
-            return Response(layer_serializer.data, status=status.HTTP_201_CREATED)
+        if layer.is_valid():
+            layer.save()
+        else:
+            return Response(layer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(layer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # Start
+        start['layer'] = layer.data['id']
+        start = StartSerializer(data=start)
+
+        if start.is_valid():
+            start.save()
+        else:
+            return Response(start.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(layer.data, status=status.HTTP_201_CREATED)
+
 
 
 class LayerView(APIView):
