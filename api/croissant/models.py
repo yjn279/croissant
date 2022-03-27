@@ -34,10 +34,10 @@ class Layer(models.Model):
 
 
 class Start(models.Model):
-    layer = models.ForeignKey(Layer, related_name='start', on_delete=models.CASCADE, null=True)
+    layer = models.ForeignKey(Layer, related_name='start', on_delete=models.DO_NOTHING, db_constraint=False)
     date = models.DateField(null=True)
     time = models.TimeField(null=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return 'test'
+        return str(self.date) + ' ' +  str(self.time)
