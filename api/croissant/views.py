@@ -68,15 +68,13 @@ class LayerView(APIView):
         
         layer = self.get_object(pk)
 
-        # Start
         start = StartSerializer(layer.start.latest('created')).data
+        layer = LayerSerializer(layer).data
+
         start['start_date'] = start['date']
         start['start_time'] = start['time']
-        del start['id'], start['layer'], start['date'], start['time']
 
-        # Layer
-        layer = LayerSerializer(layer).data
-        del layer['start']
+        del start['id'], start['layer'], start['date'], start['time']
 
         data = {**layer, **start}
         return Response(data)
@@ -86,32 +84,29 @@ class LayerView(APIView):
 
         layer = self.get_object(pk)
 
-        # # Start
-        # start_date = request.data.pop('start_date')
-        # start_time = request.data.pop('start_time')
-        # request.data['start'] = [{'date': start_date, 'time': start_time}]
+        start = {
+            'date': request.data.pop('start_date'),
+            'time': request.data.pop('start_time')
+        }
 
-        # # Layer
-        # layer_serializer = LayerSerializer(data=request.data)
+        # Layer
+        layer = LayerSerializer(layer, data=request.data)
 
-        # # Start
-        # start_date = request.data.pop('start_date')
-        # start_time = request.data.pop('start_time')
-        # start = [{'date': start_date, 'time': start_time}]
-        # start = StartSerializer(layer.start.latest('created')).data
-        # start['start_date'] = start['date']
-        # start['start_time'] = start['time']
-        # del start['id'], start['layer'], start['date'], start['time']
+        if layer.is_valid():
+            layer.save()
+        else:
+            return Response(layer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        # # Layer
-        # layer = LayerSerializer(layer).data
-        # del layer['start']
+        # Start
+        start['layer'] = pk  # layer.data['id']
+        start = StartSerializer(data=start)
 
-        # serializer = LayerSerializer(layer, data=request.data)
-        # if serializer.is_valid():
-        #     serializer.save()
-        #     return Response(serializer.data)
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if start.is_valid():
+            start.save()
+        else:
+            return Response(start.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(layer.data)
 
 
     def delete(self, request, pk, format=None):
