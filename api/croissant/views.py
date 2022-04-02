@@ -14,13 +14,11 @@ class LayersView(APIView):
         data = []
         for layer in Layer.objects.all():
 
-            start = StartSerializer(layer.start.latest('created')).data
             layer = LayerSerializer(layer).data
 
+            start = layer.pop('start')[-1]
             layer['start_date'] = start['date']
             layer['start_time'] = start['time']
-            
-            del layer['start']
             data.append({**layer})
 
         return Response(data)
@@ -63,14 +61,12 @@ class LayerView(APIView):
     def get(self, request, pk, format=None):
         
         layer = self.get_object(pk)
-
-        start = StartSerializer(layer.start.latest('created')).data
         layer = LayerSerializer(layer).data
 
+        start = layer.pop('start')[-1]
         layer['start_date'] = start['date']
         layer['start_time'] = start['time']
-
-        del layer['start']
+        
         return Response({**layer})
 
 
