@@ -43,7 +43,6 @@ class LayersView(APIView):
             return Response(layer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class LayerView(APIView):
 
 
@@ -61,42 +60,30 @@ class LayerView(APIView):
         start = StartSerializer(layer.start.latest('created')).data
         layer = LayerSerializer(layer).data
 
-        start['start_date'] = start['date']
-        start['start_time'] = start['time']
+        layer['start_date'] = start['date']
+        layer['start_time'] = start['time']
 
-        del start['id'], start['layer'], start['date'], start['time']
-
-        data = {**layer, **start}
-        return Response(data)
+        del layer['start']
+        return Response({**layer})
 
 
     def put(self, request, pk, format=None):
 
         layer = self.get_object(pk)
 
-        start = {
+        request.data['start'] = [{
             'date': request.data.pop('start_date'),
             'time': request.data.pop('start_time')
-        }
+        }]
 
-        # Layer
         layer = LayerSerializer(layer, data=request.data)
 
         if layer.is_valid():
             layer.save()
+            return Response(layer.data, status=status.HTTP_201_CREATED)
+
         else:
             return Response(layer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        # Start
-        start['layer'] = pk  # layer.data['id']
-        start = StartSerializer(data=start)
-
-        if start.is_valid():
-            start.save()
-        else:
-            return Response(start.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response(layer.data)
 
 
     def delete(self, request, pk, format=None):

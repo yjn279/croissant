@@ -15,8 +15,14 @@ class LayerSerializer(serializers.ModelSerializer):
         model = Layer
         fields = '__all__'
 
-    def create(self, validated_data):
-        start_data = validated_data.pop('start')
-        layer = super().create(validated_data)
-        layer.start.create(layer=layer.id, **start_data[0])
+    def create(self, validated):
+        start = validated.pop('start')
+        layer = super().create(validated)
+        layer.start.create(layer=layer.id, **start[0])
+        return layer
+
+    def update(self, instance, validated):
+        start = validated.pop('start')
+        layer = super().update(instance, validated)
+        layer.start.create(layer=layer.id, **start[0])
         return layer
