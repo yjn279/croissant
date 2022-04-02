@@ -36,8 +36,15 @@ class LayersView(APIView):
         layer = LayerSerializer(data=request.data)
 
         if layer.is_valid():
+
             layer.save()
-            return Response(layer.data, status=status.HTTP_201_CREATED)
+
+            data = layer.data
+            start = data.pop('start')
+            data['start_date'] = start[-1]['date']
+            data['start_time'] = start[-1]['time']
+
+            return Response(data, status=status.HTTP_201_CREATED)
 
         else:
             return Response(layer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -79,8 +86,15 @@ class LayerView(APIView):
         layer = LayerSerializer(layer, data=request.data)
 
         if layer.is_valid():
+
             layer.save()
-            return Response(layer.data, status=status.HTTP_201_CREATED)
+            
+            data = layer.data
+            start = data.pop('start')
+            data['start_date'] = start[-1]['date']
+            data['start_time'] = start[-1]['time']
+        
+            return Response(data, status=status.HTTP_201_CREATED)
 
         else:
             return Response(layer.errors, status=status.HTTP_400_BAD_REQUEST)
