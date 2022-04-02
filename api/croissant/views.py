@@ -29,32 +29,19 @@ class LayersView(APIView):
 
     def post(self, request, format=None):
 
-        start = {
+        request.data['start'] = [{
             'date': request.data.pop('start_date'),
             'time': request.data.pop('start_time')
-        }
+        }]
 
-        request.data['start'] = [start]
-        # start = request.data.pop('start')
-
-        # Layer
         layer = LayerSerializer(data=request.data)
 
         if layer.is_valid():
             layer.save()
+            return Response(layer.data, status=status.HTTP_201_CREATED)
+
         else:
             return Response(layer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        # Start
-        start['layer'] = layer.data['id']
-        start = StartSerializer(data=start)
-
-        if start.is_valid():
-            start.save()
-        else:
-            return Response(start.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-        return Response(layer.data, status=status.HTTP_201_CREATED)
 
 
 
