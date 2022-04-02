@@ -66,7 +66,7 @@ class LayerView(APIView):
         start = layer.pop('start')[-1]
         layer['start_date'] = start['date']
         layer['start_time'] = start['time']
-        
+
         return Response({**layer})
 
 
@@ -100,3 +100,46 @@ class LayerView(APIView):
         layer = self.get_object(pk)
         layer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ChildrenView(APIView):
+
+    
+    def get(self, request, pk, format=None):
+
+        data = []
+        for layer in Layer.objects.all().filter(parent__id=pk):
+
+            layer = LayerSerializer(layer).data
+
+            start = layer.pop('start')[-1]
+            layer['start_date'] = start['date']
+            layer['start_time'] = start['time']
+            data.append({**layer})
+
+        return Response(data)
+
+
+    def post(self, request, pk, format=None):
+
+        request.data['parent'] = pk
+        request.data['start'] = [{
+            'date': request.data.pop('start_date'),
+            'time': request.data.pop('start_time')
+        }]
+
+        layer = LayerSerializer(data=request.data)
+
+        if layer.is_valid():
+
+            layer.save()
+
+            data = layer.data
+            start = data.pop('start')
+            data['start_date'] = start[-1]['date']
+            data['start_time'] = start[-1]['time']
+
+            return Response(data, status=status.HTTP_201_CREATED)
+
+        else:
+            return Response(layer.errors, status=status.HTTP_400_BAD_REQUEST)
