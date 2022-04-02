@@ -4,6 +4,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics
 
 
 class LayersView(APIView):
@@ -17,11 +18,11 @@ class LayersView(APIView):
             start = StartSerializer(layer.start.latest('created')).data
             layer = LayerSerializer(layer).data
 
-            start['start_date'] = start['date']
-            start['start_time'] = start['time']
-
-            del start['id'], start['layer'], start['date'], start['time']
-            data.append({**layer, **start})
+            layer['start_date'] = start['date']
+            layer['start_time'] = start['time']
+            
+            del layer['start']
+            data.append({**layer})
 
         return Response(data)
 
@@ -32,6 +33,9 @@ class LayersView(APIView):
             'date': request.data.pop('start_date'),
             'time': request.data.pop('start_time')
         }
+
+        request.data['start'] = [start]
+        # start = request.data.pop('start')
 
         # Layer
         layer = LayerSerializer(data=request.data)
