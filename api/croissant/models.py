@@ -17,15 +17,6 @@ class Layer(models.Model):
     def __str__(self):
         return self.title
 
-    # class Meta:
-    #     ordering = ['created']
-
-
-# class Child(models.Model):
-#     parent_id = models.ForeignKey(Layer, related_name='children', on_delete=models.CASCADE)
-#     child_id = models.ForeignKey(Layer, related_name='parents', on_delete=models.CASCADE)
-#     created = models.DateTimeField(auto_now_add=True)
-
 
 # class Tasks(models.Model):
 #     layer_id = models.ForeignKey(Layer, related_name='tasks', on_delete=models.CASCADE)
