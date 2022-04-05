@@ -1,9 +1,56 @@
 from croissant.models import Layer
-from croissant.serializers import LayerSerializer, StartSerializer
+from croissant.serializers import LayerSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
+
+def pop(dict, key):
+    if key in dict:
+        return dict.pop(key)
+    else:
+        None
+
+
+def format_serialized(layer):
+
+    data = layer.data
+
+    starts = data.pop('starts')
+    if starts:
+        start = starts[-1]
+        data['start_date'] = start['date']
+        data['start_time'] = start['time']
+    else:
+        data['start_date'] = None
+        data['start_time'] = None
+
+    ends = data.pop('ends')
+    if ends:
+        end = ends[-1]
+        data['end_date'] = end['date']
+        data['end_time'] = end['time']
+    else:
+        data['end_date'] = None
+        data['end_time'] = None
+
+    return data
+
+
+def format_request(request):
+
+    request.data['starts'] = [{
+        'date': pop(request.data, 'start_date'),
+        'time': pop(request.data, 'start_time')
+    }]
+
+    request.data['ends'] = [{
+        'date': pop(request.data, 'end_date'),
+        'time': pop(request.data, 'end_time')
+    }]
+
+    return request
 
 
 class LayersView(APIView):
@@ -13,12 +60,8 @@ class LayersView(APIView):
 
         data = []
         for layer in Layer.objects.all():
-
-            layer = LayerSerializer(layer).data
-
-            start = layer.pop('start')[-1]
-            layer['start_date'] = start['date']
-            layer['start_time'] = start['time']
+            layer = LayerSerializer(layer)
+            layer = format_serialized(layer)
             data.append({**layer})
 
         return Response(data)
@@ -26,23 +69,13 @@ class LayersView(APIView):
 
     def post(self, request, format=None):
 
-        request.data['start'] = [{
-            'date': request.data.pop('start_date'),
-            'time': request.data.pop('start_time')
-        }]
-
+        request = format_request(request)
         layer = LayerSerializer(data=request.data)
 
         if layer.is_valid():
-
             layer.save()
-
-            data = layer.data
-            start = data.pop('start')
-            data['start_date'] = start[-1]['date']
-            data['start_time'] = start[-1]['time']
-
-            return Response(data, status=status.HTTP_201_CREATED)
+            layer = format_serialized(layer)
+            return Response(layer, status=status.HTTP_201_CREATED)
 
         else:
             return Response(layer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -59,38 +92,22 @@ class LayerView(APIView):
 
 
     def get(self, request, pk, format=None):
-        
         layer = self.get_object(pk)
-        layer = LayerSerializer(layer).data
-
-        start = layer.pop('start')[-1]
-        layer['start_date'] = start['date']
-        layer['start_time'] = start['time']
-
+        layer = LayerSerializer(layer)
+        layer = format_serialized(layer)
         return Response({**layer})
 
 
     def put(self, request, pk, format=None):
 
+        request = format_request(request)
         layer = self.get_object(pk)
-
-        request.data['start'] = [{
-            'date': request.data.pop('start_date'),
-            'time': request.data.pop('start_time')
-        }]
-
         layer = LayerSerializer(layer, data=request.data)
 
         if layer.is_valid():
-
             layer.save()
-            
-            data = layer.data
-            start = data.pop('start')
-            data['start_date'] = start[-1]['date']
-            data['start_time'] = start[-1]['time']
-        
-            return Response(data, status=status.HTTP_201_CREATED)
+            layer = format_serialized(layer)
+            return Response(layer, status=status.HTTP_201_CREATED)
 
         else:
             return Response(layer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -109,12 +126,8 @@ class ChildrenView(APIView):
 
         data = []
         for layer in Layer.objects.all().filter(parent__id=pk):
-
-            layer = LayerSerializer(layer).data
-
-            start = layer.pop('start')[-1]
-            layer['start_date'] = start['date']
-            layer['start_time'] = start['time']
+            layer = LayerSerializer(layer)
+            layer = format_serialized(layer)
             data.append({**layer})
 
         return Response(data)
@@ -123,23 +136,13 @@ class ChildrenView(APIView):
     def post(self, request, pk, format=None):
 
         request.data['parent'] = pk
-        request.data['start'] = [{
-            'date': request.data.pop('start_date'),
-            'time': request.data.pop('start_time')
-        }]
-
+        request = format_request(request)
         layer = LayerSerializer(data=request.data)
 
         if layer.is_valid():
-
             layer.save()
-
-            data = layer.data
-            start = data.pop('start')
-            data['start_date'] = start[-1]['date']
-            data['start_time'] = start[-1]['time']
-
-            return Response(data, status=status.HTTP_201_CREATED)
+            layer = format_serialized(layer)
+            return Response(layer, status=status.HTTP_201_CREATED)
 
         else:
             return Response(layer.errors, status=status.HTTP_400_BAD_REQUEST)
