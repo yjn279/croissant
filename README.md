@@ -1,6 +1,10 @@
 # Croissant
 
 ## Setup
+1. Material UI: `npm install @mui/material @emotion/react @emotion/styled`
+2. SVG icons: `npm install @mui/icons-material`
+
+
 - python 3.9
 - Node.js 17.9
 - Material UI
