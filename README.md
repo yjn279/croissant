@@ -15,3 +15,4 @@
     - run: `npx @mui/codemod v5.0.0/date-pickers-moved-to-x <path>`
     - DateTime: `npm install @date-io/date-fns`
     - axios: `npm install axios --save`
+    - [Tailwind CSS](https://tailwindcss.com/docs/guides/nextjs)
