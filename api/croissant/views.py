@@ -1,3 +1,4 @@
+from turtle import title
 from croissant.models import Layer
 from croissant.serializers import LayerSerializer
 from django.http import Http404
@@ -39,6 +40,12 @@ def format_serialized(layer):
 
 
 def format_request(request):
+
+    title = pop(request.data, 'title')
+    request.data['title'] = title if title is not None else ''
+
+    description = pop(request.data, 'description')
+    request.data['description'] = description if description is not None else ''
 
     request.data['starts'] = [{
         'date': pop(request.data, 'start_date'),
