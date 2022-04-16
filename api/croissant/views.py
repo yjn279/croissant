@@ -14,6 +14,14 @@ def pop(dict, key):
         None
 
 
+def none2blank(value):
+    return '' if value is None else value
+
+
+def blank2none(value):
+    return None if value is '' else value
+
+
 def format_serialized(layer):
 
     data = layer.data
@@ -41,11 +49,13 @@ def format_serialized(layer):
 
 def format_request(request):
 
-    title = pop(request.data, 'title')
-    request.data['title'] = title if title is not None else ''
-
-    description = pop(request.data, 'description')
-    request.data['description'] = description if description is not None else ''
+    request.data['title'] = none2blank(request.data.get('title'))
+    request.data['description'] = none2blank(request.data.get('description'))
+    request.data['parent'] = blank2none(request.data.get('parent'))
+    request.data['start_date'] = blank2none(request.data.get('start_date'))
+    request.data['start_time'] = blank2none(request.data.get('start_time'))
+    request.data['end_date'] = blank2none(request.data.get('end_date'))
+    request.data['end_time'] = blank2none(request.data.get('end_time'))
 
     request.data['starts'] = [{
         'date': pop(request.data, 'start_date'),

@@ -3,7 +3,16 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 
-function post(title=null, description=null, start_date=null, start_time=null, end_date=null, end_time=null) {
+function post({
+
+    title=null,
+    description=null,
+    start_date=null,
+    start_time=null,
+    end_date=null,
+    end_time=null
+    
+}) {
 
     const data = {
         'title': title,
@@ -14,22 +23,9 @@ function post(title=null, description=null, start_date=null, start_time=null, en
         'end_time': end_time
     };
 
+    console.log(data);
 
-  
-    // axios.get('https://croissant.pythonanywhere.com/layers/')
-    axios.get('http://127.0.0.1:8000/layers/')
-
-        .then(res => {
-            console.log(res);
-        })
-
-        .catch(err => {
-            console.log("err:", err);
-        });
-    console.log('test');
-  
-    // axios.post('https://croissant.pythonanywhere.com/layers/', data)
-    axios.post('http://127.0.0.1:8000/layers/', {})
+    axios.post('http://127.0.0.1:8000/layers/', data)
   
         .then(res => {
             console.log(res);
@@ -38,15 +34,13 @@ function post(title=null, description=null, start_date=null, start_time=null, en
         .catch(err => {
             console.log('err:', err);
         });
+
 }
 
 
-export default function Home() {
+export default function Layer() {
     return (
-        <div>
-            <h1 className="text-3xl font-bold underline">
-                Hello world!
-            </h1>
+        <>
             <TextField id="title" label="Title" variant="outlined" />
             <TextField id="description" label="Description" variant="outlined" multiline rows="3" />
             <p>start date</p>
@@ -57,14 +51,14 @@ export default function Home() {
             <input type="date" id="end-date"></input>
             <p>end time</p>
             <input type="time" id="end-time"></input>
-            <Button variant="contained" onClick={() => post(
-            // title=document.getElementById('title').value,
-            // description=document.getElementById('description').value,
-            // start_date=document.getElementById('start-date').value,
-            // start_time=document.getElementById('start-time').value,
-            // end_date=document.getElementById('end-date').value,
-            // end_time=document.getElementById('end-time').value
-            )}>Create</Button>
-      </div>
+            <Button variant="contained" onClick={() => post({
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                start_date: document.getElementById('start-date').value,
+                start_time: document.getElementById('start-time').value,
+                end_date: document.getElementById('end-date').value,
+                end_time: document.getElementById('end-time').value
+            })}>Create</Button>
+      </>
     )
 }
