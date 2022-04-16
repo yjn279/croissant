@@ -2,10 +2,6 @@ import axios from 'axios';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-// axios.defaults.baseURL = 'http://localhost:3000';
-// axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-
 
 function post(title=null, description=null, start_date=null, start_time=null, end_date=null, end_time=null) {
 
@@ -17,12 +13,14 @@ function post(title=null, description=null, start_date=null, start_time=null, en
         'end_date': end_date,
         'end_time': end_time
     };
+
+
   
-    axios.get('https://croissant.pythonanywhere.com/layers/')
+    // axios.get('https://croissant.pythonanywhere.com/layers/')
+    axios.get('http://127.0.0.1:8000/layers/')
 
         .then(res => {
-            console.log('e')
-            console.log("ステータスコード:", res);
+            console.log(res);
         })
 
         .catch(err => {
@@ -30,7 +28,8 @@ function post(title=null, description=null, start_date=null, start_time=null, en
         });
     console.log('test');
   
-    axios.post('https://croissant.pythonanywhere.com/layers/', data)
+    // axios.post('https://croissant.pythonanywhere.com/layers/', data)
+    axios.post('http://127.0.0.1:8000/layers/', {})
   
         .then(res => {
             console.log(res);
