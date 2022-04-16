@@ -18,22 +18,39 @@ class LayerSerializer(serializers.ModelSerializer):
     starts = StartSerializer(allow_null=True, many=True)
     ends = EndSerializer(allow_null=True, many=True)
 
+
     class Meta:
         model = Layer
         fields = '__all__'
+        
 
     def create(self, validated):
-        starts = validated.pop('starts')
-        ends = validated.pop('ends')
+
+        start = validated.pop('starts')[0]
+        end = validated.pop('ends')[0]
         layer = super().create(validated)
-        layer.starts.create(layer=layer.id, **starts[0])
-        layer.ends.create(layer=layer.id, **ends[0])
+        
+        if (start['date'] or start['time']) is not None:
+            layer.starts.create(layer=layer.id, **start)
+        
+        if (end['date'] or end['time']) is not None:
+            layer.ends.create(layer=layer.id, **end)
+
         return layer
 
+
     def update(self, instance, validated):
-        starts = validated.pop('starts')
-        ends = validated.pop('ends')
+
+        start = validated.pop('starts')[0]
+        end = validated.pop('ends')[0]
         layer = super().update(instance, validated)
-        layer.starts.create(layer=layer.id, **starts[0])
-        layer.ends.create(layer=layer.id, **ends[0])
+
+        latest = instance.starts.latest('created')
+        if start['date'] != latest.date or start['time'] != latest.time:
+            layer.starts.create(layer=layer.id, **start)
+        
+        latest = instance.ends.latest('created')
+        if end['date'] != latest.date or end['time'] != latest.time:
+            layer.ends.create(layer=layer.id, **end)
+
         return layer
