@@ -13,14 +13,26 @@ function post(title=null, description=null, start_date=null, start_time=null, en
         'end_date': end_date,
         'end_time': end_time
     };
+
+
   
-    const a = axios.get('https://croissant.pythonanywhere.com/layers/')
-    console.log(a)
+    // axios.get('https://croissant.pythonanywhere.com/layers/')
+    axios.get('http://127.0.0.1:8000/layers/')
+
+        .then(res => {
+            console.log(res);
+        })
+
+        .catch(err => {
+            console.log("err:", err);
+        });
+    console.log('test');
   
-    const url = axios.post('https://croissant.pythonanywhere.com/layers/', data)
+    // axios.post('https://croissant.pythonanywhere.com/layers/', data)
+    axios.post('http://127.0.0.1:8000/layers/', {})
   
-        .then(() => {
-            console.log(url);
+        .then(res => {
+            console.log(res);
         })
         
         .catch(err => {
