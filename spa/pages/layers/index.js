@@ -2,6 +2,10 @@ import axios from 'axios';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
+// axios.defaults.baseURL = 'http://localhost:3000';
+// axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
 
 function post(title=null, description=null, start_date=null, start_time=null, end_date=null, end_time=null) {
 
@@ -14,13 +18,22 @@ function post(title=null, description=null, start_date=null, start_time=null, en
         'end_time': end_time
     };
   
-    const a = axios.get('https://croissant.pythonanywhere.com/layers/')
-    console.log(a)
+    axios.get('https://croissant.pythonanywhere.com/layers/')
+
+        .then(res => {
+            console.log('e')
+            console.log("ステータスコード:", res);
+        })
+
+        .catch(err => {
+            console.log("err:", err);
+        });
+    console.log('test');
   
-    const url = axios.post('https://croissant.pythonanywhere.com/layers/', data)
+    axios.post('https://croissant.pythonanywhere.com/layers/', data)
   
-        .then(() => {
-            console.log(url);
+        .then(res => {
+            console.log(res);
         })
         
         .catch(err => {
