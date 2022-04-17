@@ -13,7 +13,6 @@ function get(setLayers) {
     axios.get('http://127.0.0.1:8000/layers/')
   
         .then(res => {
-            console.log(res);
             setLayers(res.data);
         })
         
@@ -35,15 +34,13 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function LayersGet() {
 
-    const [layers, setLayers] = React.useState(null);
+    const [layers, setLayers] = React.useState([]);
     React.useEffect(() => {get(setLayers)}, []);
-    // console.log(layers);
 
     return (
         <Box sx={{ width: '50%' }}>
             <Stack spacing={2}>
-                {/* {layers.map(layer => <Item>{layer}</Item>)} */}
-                {console.log(layers)}
+                {layers.map(layer => <Item>{layer.title}</Item>)}
             </Stack>
         </Box>
     )
