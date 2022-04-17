@@ -1,7 +1,24 @@
-import axios from 'axios';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
+
+export default function Home() {
+    return (
+    <>
+       <input type="date"></input>
+       <input type="date"></input>
+       <TextField id="standard-basic" label="Standard" variant="standard" inputProps={{maxlength: 64}} />
+       <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+       <input type="checkbox"></input>
+       <input type="reset"></input>
+       <select name="choice">
+  <option value="first">First Value</option>
+  <option value="second" selected>Second Value</option>
+  <option value="third">Third Value</option>
+</select>
+    
+    </>
+    );
+}
 
 function post({
 
@@ -37,28 +54,47 @@ function post({
 
 }
 
-
 export default function Layer() {
     return (
-        <>
-            <TextField id="title" label="Title" variant="outlined" />
-            <TextField id="description" label="Description" variant="outlined" multiline rows="3" />
-            <p>start date</p>
-            <input type="date" id="start-date"></input>
-            <p>start time</p>
-            <input type="time" id="start-time"></input>
-            <p>end date</p>
-            <input type="date" id="end-date"></input>
-            <p>end time</p>
-            <input type="time" id="end-time"></input>
-            <Button variant="contained" onClick={() => post({
-                title: document.getElementById('title').value,
-                description: document.getElementById('description').value,
-                start_date: document.getElementById('start-date').value,
-                start_time: document.getElementById('start-time').value,
-                end_date: document.getElementById('end-date').value,
-                end_time: document.getElementById('end-time').value
-            })}>Create</Button>
-      </>
-    )
+    <>
+       <input type="date"></input>
+       <input type="date"></input>
+       <TextField id="standard-basic" label="Standard" variant="standard" inputProps={{maxlength: 64}} />
+       <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+       <input type="checkbox"></input>
+       <input type="reset"></input>
+       <select name="choice">
+  <option value="first">First Value</option>
+  <option value="second" selected>Second Value</option>
+  <option value="third">Third Value</option>
+</select>
+    
+    </>
+    );
 }
+
+
+// export default function Layer() {
+//     return (
+//         <>
+//             <TextField id="title" label="Title" variant="outlined" />
+//             <TextField id="description" label="Description" variant="outlined" multiline rows="3" />
+//             <p>start date</p>
+//             <input type="date" id="start-date"></input>
+//             <p>start time</p>
+//             <input type="time" id="start-time"></input>
+//             <p>end date</p>
+//             <input type="date" id="end-date"></input>
+//             <p>end time</p>
+//             <input type="time" id="end-time"></input>
+//             <Button variant="contained" onClick={() => post({
+//                 title: document.getElementById('title').value,
+//                 description: document.getElementById('description').value,
+//                 start_date: document.getElementById('start-date').value,
+//                 start_time: document.getElementById('start-time').value,
+//                 end_date: document.getElementById('end-date').value,
+//                 end_time: document.getElementById('end-time').value
+//             })}>Create</Button>
+//       </>
+//     )
+// }
