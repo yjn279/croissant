@@ -1,3 +1,4 @@
+from turtle import title
 from croissant.models import Layer
 from croissant.serializers import LayerSerializer
 from django.http import Http404
@@ -11,6 +12,14 @@ def pop(dict, key):
         return dict.pop(key)
     else:
         None
+
+
+def none2blank(value):
+    return '' if value is None else value
+
+
+def blank2none(value):
+    return None if value is '' else value
 
 
 def format_serialized(layer):
@@ -39,6 +48,14 @@ def format_serialized(layer):
 
 
 def format_request(request):
+
+    request.data['title'] = none2blank(request.data.get('title'))
+    request.data['description'] = none2blank(request.data.get('description'))
+    request.data['parent'] = blank2none(request.data.get('parent'))
+    request.data['start_date'] = blank2none(request.data.get('start_date'))
+    request.data['start_time'] = blank2none(request.data.get('start_time'))
+    request.data['end_date'] = blank2none(request.data.get('end_date'))
+    request.data['end_time'] = blank2none(request.data.get('end_time'))
 
     request.data['starts'] = [{
         'date': pop(request.data, 'start_date'),

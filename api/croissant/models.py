@@ -2,8 +2,8 @@ from django.db import models
 
 
 class Layer(models.Model):
-    title = models.CharField(max_length=64, default='')
-    description = models.TextField(default='')
+    title = models.CharField(max_length=64, blank=True, default='')
+    description = models.TextField(blank=True, default='')
     parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True)
     # tasks = models.PositiveIntegerField(default=1)
     # progress = models.PositiveIntegerField(default=0)
