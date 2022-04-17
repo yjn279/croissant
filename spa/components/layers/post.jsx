@@ -40,35 +40,51 @@ export default function LayersPost() {
 
     const [startDate, setStartDate] = React.useState(null);
     const [startTime, setStartTime] = React.useState(null);
+    const [endDate, setEndDate] = React.useState(null);
+    const [endTime, setEndTime] = React.useState(null);
 
     return (
         <>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
+                    id="start-date"
                     label='Basic example'
                     value={startDate}
                     onChange={date => setStartDate(date)}
                     renderInput={params => <TextField {...params} />}
                 />
                 <TimePicker
+                    id="start-time"
                     label='Basic example'
                     value={startTime}
                     onChange={time => setStartTime(time)}
                     renderInput={params => <TextField {...params} />}
                 />
+                <DatePicker
+                    id="end-date"
+                    label='Basic example'
+                    value={endDate}
+                    onChange={date => setEndDate(date)}
+                    renderInput={params => <TextField {...params} />}
+                />
+                <TimePicker
+                    id="end-time"
+                    label='Basic example'
+                    value={endTime}
+                    onChange={time => setEndTime(time)}
+                    renderInput={params => <TextField {...params} />}
+                />
             </LocalizationProvider>
-            <TextField id="title" label="Title" variant="outlined" />
-            <TextField id="description" label="Description" variant="outlined" multiline rows="3" />
-            <p>start date</p>
-            <input type="date" id="start-date"></input>
-            <p>start time</p>
-            <input type="time" id="start-time"></input>
-            <p>end date</p>
-            <input type="date" id="end-date"></input>
-            <p>end time</p>
-            <input type="time" id="end-time"></input>
-            <input type="text" id="parent"></input>
-            <Button variant="contained" onClick={create}>Create</Button>
+
+            <TextField id="title" label="Standard" variant="standard" inputProps={{maxlength: 64}} />
+            <TextField id="description" label="Outlined" variant="outlined" />
+            <input type="checkbox"></input>
+            <input type="reset" onClick={create}></input>
+            <select name="choice" id="parent">
+                <option value="first">First Value</option>
+                <option value="second" selected>Second Value</option>
+                <option value="third">Third Value</option>
+            </select>
         </>
-    )
+    );
 }

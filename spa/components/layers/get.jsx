@@ -8,20 +8,20 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 
 
-function get(setLayers) {
+// function get(setLayers) {
 
-    axios.get('http://127.0.0.1:8000/layers/')
+//     axios.get('http://127.0.0.1:8000/layers/')
   
-        .then(res => {
-            console.log(res);
-            setLayers(res.data);
-        })
+//         .then(res => {
+//             console.log(res);
+//             setLayers(res.data);
+//         })
         
-        .catch(err => {
-           console.log(err);
-        });
+//         .catch(err => {
+//            console.log(err);
+//         });
 
-};
+// };
 
 
 const Item = styled(Paper)(({ theme }) => ({
