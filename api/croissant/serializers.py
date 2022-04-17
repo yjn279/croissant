@@ -45,12 +45,20 @@ class LayerSerializer(serializers.ModelSerializer):
         end = validated.pop('ends')[0]
         layer = super().update(instance, validated)
 
-        latest = instance.starts.latest('created')
-        if start['date'] != latest.date or start['time'] != latest.time:
-            layer.starts.create(layer=layer.id, **start)
+        if instance.starts.exists():
+            latest = instance.starts.latest('created')
+            if start['date'] != latest.date or start['time'] != latest.time:
+                layer.starts.create(layer=layer.id, **start)
+        else:
+            if (start['date'] or start['time']) is not None:
+                layer.starts.create(layer=layer.id, **start)
         
-        latest = instance.ends.latest('created')
-        if end['date'] != latest.date or end['time'] != latest.time:
-            layer.ends.create(layer=layer.id, **end)
+        if instance.ends.exists():
+            latest = instance.ends.latest('created')
+            if end['date'] != latest.date or end['time'] != latest.time:
+                layer.ends.create(layer=layer.id, **end)
+        else:
+            if (end['date'] or end['time']) is not None:
+                layer.ends.create(layer=layer.id, **end)
 
         return layer

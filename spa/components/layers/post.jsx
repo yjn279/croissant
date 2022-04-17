@@ -4,7 +4,6 @@ import axios from 'axios';
 
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -16,11 +15,11 @@ const create = () => {
     const data = {
         'title': document.getElementById('title').value,
         'description': document.getElementById('description').value,
-        'parent': document.getElementById('parent').value,
-        'start_date': document.getElementById('start-date').value,
-        'start_time': document.getElementById('start-time').value,
-        'end_date': document.getElementById('end-date').value,
-        'end_time': document.getElementById('end-time').value
+        // 'parent': document.getElementById('parent').value,
+        // 'start_date': document.getElementById('start-date').value,
+        // 'start_time': document.getElementById('start-time').value,
+        // 'end_date': document.getElementById('end-date').value,
+        // 'end_time': document.getElementById('end-time').value
     };
 
     axios.post('http://127.0.0.1:8000/layers/', data)
