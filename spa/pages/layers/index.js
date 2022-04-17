@@ -1,6 +1,14 @@
+import React from 'react';
+
 import axios from 'axios';
+
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 
 function post({
@@ -39,8 +47,24 @@ function post({
 
 
 export default function Layer() {
+    const [startDate, setStartDate] = React.useState(null);
+    const [startTime, setStartTime] = React.useState(null);
     return (
         <>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                    label='Basic example'
+                    value={startDate}
+                    onChange={date => setStartDate(date)}
+                    renderInput={params => <TextField {...params} />}
+                />
+                <TimePicker
+                    label='Basic example'
+                    value={startTime}
+                    onChange={time => setStartTime(time)}
+                    renderInput={params => <TextField {...params} />}
+                />
+            </LocalizationProvider>
             <TextField id="title" label="Title" variant="outlined" />
             <TextField id="description" label="Description" variant="outlined" multiline rows="3" />
             <p>start date</p>
