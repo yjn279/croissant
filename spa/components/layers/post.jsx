@@ -11,7 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 
-function post({
+function create({
 
     title=null,
     description=null,
@@ -31,8 +31,6 @@ function post({
         'end_time': end_time
     };
 
-    console.log(data);
-
     axios.post('http://127.0.0.1:8000/layers/', data)
   
         .then(res => {
@@ -46,11 +44,12 @@ function post({
 }
 
 
+
 export default function LayersPost() {
 
     const [startDate, setStartDate] = React.useState(null);
     const [startTime, setStartTime] = React.useState(null);
-    
+
     return (
         <>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
