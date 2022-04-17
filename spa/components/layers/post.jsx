@@ -11,24 +11,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 
-function create({
-
-    title=null,
-    description=null,
-    start_date=null,
-    start_time=null,
-    end_date=null,
-    end_time=null
-    
-}) {
+const create = () => {
 
     const data = {
-        'title': title,
-        'description': description,
-        'start_date': start_date,
-        'start_time': start_time,
-        'end_date': end_date,
-        'end_time': end_time
+        'title': document.getElementById('title').value,
+        'description': document.getElementById('description').value,
+        'start_date': document.getElementById('start-date').value,
+        'start_time': document.getElementById('start-time').value,
+        'end_date': document.getElementById('end-date').value,
+        'end_time': document.getElementById('end-time').value
     };
 
     axios.post('http://127.0.0.1:8000/layers/', data)
@@ -41,8 +32,7 @@ function create({
             console.log('err:', err);
         });
 
-}
-
+};
 
 
 export default function LayersPost() {
@@ -76,14 +66,7 @@ export default function LayersPost() {
             <input type="date" id="end-date"></input>
             <p>end time</p>
             <input type="time" id="end-time"></input>
-            <Button variant="contained" onClick={() => post({
-                title: document.getElementById('title').value,
-                description: document.getElementById('description').value,
-                start_date: document.getElementById('start-date').value,
-                start_time: document.getElementById('start-time').value,
-                end_date: document.getElementById('end-date').value,
-                end_time: document.getElementById('end-time').value
-            })}>Create</Button>
+            <Button variant="contained" onClick={create}>Create</Button>
       </>
     )
 }
