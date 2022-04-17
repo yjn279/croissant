@@ -36,11 +36,24 @@ export default function LayersGet() {
 
     const [layers, setLayers] = React.useState([]);
     React.useEffect(() => {get(setLayers)}, []);
+    console.log(layers);
 
     return (
         <Box sx={{ width: '50%' }}>
             <Stack spacing={2}>
-                {layers.map(layer => <Item>{layer.title}</Item>)}
+                {
+                    layers.map(layer => (
+                        <Item>
+                            <p>{layer.title}</p>
+                            <p>{layer.description}</p>
+                            <p>{layer.parent}</p>
+                            <p>{layer.startDate}</p>
+                            <p>{layer.startTime}</p>
+                            <p>{layer.endDate}</p>
+                            <p>{layer.endTime}</p>
+                        </Item>
+                    ))
+                }
             </Stack>
         </Box>
     )
