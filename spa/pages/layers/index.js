@@ -1,46 +1,41 @@
+import React from 'react';
+import axios from 'axios';
+import LayersGet from '../../components/layers/get';
+import LayersPost from '../../components/layers/post';
 import TextField from '@mui/material/TextField';
 
 
-export default function Home() {
-    return (
-    <>
-       <input type="date"></input>
-       <input type="date"></input>
-       <TextField id="standard-basic" label="Standard" variant="standard" inputProps={{maxlength: 64}} />
-       <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-       <input type="checkbox"></input>
-       <input type="reset"></input>
-       <select name="choice">
-  <option value="first">First Value</option>
-  <option value="second" selected>Second Value</option>
-  <option value="third">Third Value</option>
-</select>
-    
-    </>
-    );
-}
+function get(setLayers) {
 
-function post({
+    let test = null;
 
-    title=null,
-    description=null,
-    start_date=null,
-    start_time=null,
-    end_date=null,
-    end_time=null
-    
-}) {
+    axios.get('http://127.0.0.1:8000/layers/')
+  
+        .then(res => {
+            console.log(res);
+            test = res.data;
+        })
+        
+        .catch(err => {
+           console.log(err);
+        });
+
+    return test;
+
+};
+
+
+const create = () => {
 
     const data = {
-        'title': title,
-        'description': description,
-        'start_date': start_date,
-        'start_time': start_time,
-        'end_date': end_date,
-        'end_time': end_time
+        'title': document.getElementById('title').value,
+        'description': document.getElementById('description').value,
+        'parent': document.getElementById('parent').value,
+        'start_date': document.getElementById('start-date').value,
+        'start_time': document.getElementById('start-time').value,
+        'end_date': document.getElementById('end-date').value,
+        'end_time': document.getElementById('end-time').value
     };
-
-    console.log(data);
 
     axios.post('http://127.0.0.1:8000/layers/', data)
   
@@ -52,49 +47,24 @@ function post({
             console.log('err:', err);
         });
 
-}
+};
 
-export default function Layer() {
+
+export default function Layers() {
+    get();
     return (
-    <>
-       <input type="date"></input>
-       <input type="date"></input>
-       <TextField id="standard-basic" label="Standard" variant="standard" inputProps={{maxlength: 64}} />
-       <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-       <input type="checkbox"></input>
-       <input type="reset"></input>
-       <select name="choice">
-  <option value="first">First Value</option>
-  <option value="second" selected>Second Value</option>
-  <option value="third">Third Value</option>
-</select>
-    
-    </>
-    );
+        <>
+            <LayersGet />
+            <LayersPost />
+        </>
+    )
 }
 
 
-// export default function Layer() {
-//     return (
-//         <>
-//             <TextField id="title" label="Title" variant="outlined" />
-//             <TextField id="description" label="Description" variant="outlined" multiline rows="3" />
-//             <p>start date</p>
-//             <input type="date" id="start-date"></input>
-//             <p>start time</p>
-//             <input type="time" id="start-time"></input>
-//             <p>end date</p>
-//             <input type="date" id="end-date"></input>
-//             <p>end time</p>
-//             <input type="time" id="end-time"></input>
-//             <Button variant="contained" onClick={() => post({
-//                 title: document.getElementById('title').value,
-//                 description: document.getElementById('description').value,
-//                 start_date: document.getElementById('start-date').value,
-//                 start_time: document.getElementById('start-time').value,
-//                 end_date: document.getElementById('end-date').value,
-//                 end_time: document.getElementById('end-time').value
-//             })}>Create</Button>
-//       </>
-//     )
-// }
+// export async function getServerSideProps() {
+//     const res = await fetch(`https://.../data`)
+//     const data = await res.json()
+  
+//     // Pass data to the page via props
+//     return { props: { data } }
+//   }
