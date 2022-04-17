@@ -29,20 +29,20 @@ def format_serialized(layer):
     starts = data.pop('starts')
     if starts:
         start = starts[-1]
-        data['start_date'] = start['date']
-        data['start_time'] = start['time']
+        data['startDate'] = start['date']
+        data['startTime'] = start['time']
     else:
-        data['start_date'] = None
-        data['start_time'] = None
+        data['startDate'] = None
+        data['startTime'] = None
 
     ends = data.pop('ends')
     if ends:
         end = ends[-1]
-        data['end_date'] = end['date']
-        data['end_time'] = end['time']
+        data['endDate'] = end['date']
+        data['endTime'] = end['time']
     else:
-        data['end_date'] = None
-        data['end_time'] = None
+        data['endDate'] = None
+        data['endTime'] = None
 
     return data
 
@@ -52,19 +52,19 @@ def format_request(request):
     request.data['title'] = none2blank(request.data.get('title'))
     request.data['description'] = none2blank(request.data.get('description'))
     request.data['parent'] = blank2none(request.data.get('parent'))
-    request.data['start_date'] = blank2none(request.data.get('start_date'))
-    request.data['start_time'] = blank2none(request.data.get('start_time'))
-    request.data['end_date'] = blank2none(request.data.get('end_date'))
-    request.data['end_time'] = blank2none(request.data.get('end_time'))
+    request.data['startDate'] = blank2none(request.data.get('startDate'))
+    request.data['startTime'] = blank2none(request.data.get('startTime'))
+    request.data['endDate'] = blank2none(request.data.get('endDate'))
+    request.data['endTime'] = blank2none(request.data.get('endTime'))
 
     request.data['starts'] = [{
-        'date': pop(request.data, 'start_date'),
-        'time': pop(request.data, 'start_time')
+        'date': pop(request.data, 'startDate'),
+        'time': pop(request.data, 'startTime')
     }]
 
     request.data['ends'] = [{
-        'date': pop(request.data, 'end_date'),
-        'time': pop(request.data, 'end_time')
+        'date': pop(request.data, 'endDate'),
+        'time': pop(request.data, 'endTime')
     }]
 
     return request
