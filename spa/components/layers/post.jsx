@@ -16,6 +16,7 @@ const create = () => {
     const data = {
         'title': document.getElementById('title').value,
         'description': document.getElementById('description').value,
+        'parent': document.getElementById('parent').value,
         'start_date': document.getElementById('start-date').value,
         'start_time': document.getElementById('start-time').value,
         'end_date': document.getElementById('end-date').value,
@@ -66,7 +67,8 @@ export default function LayersPost() {
             <input type="date" id="end-date"></input>
             <p>end time</p>
             <input type="time" id="end-time"></input>
+            <input type="text" id="parent"></input>
             <Button variant="contained" onClick={create}>Create</Button>
-      </>
+        </>
     )
 }
