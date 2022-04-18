@@ -26,38 +26,38 @@ const style = {
 };
 
 
-const create = (setLastCreated) => {
-
-    const data = {
-        'title': document.getElementById('title').value,
-        'description': document.getElementById('description').value,
-        // 'parent': document.getElementById('parent').value,
-        // 'start_date': document.getElementById('start-date').value,
-        // 'start_time': document.getElementById('start-time').value,
-        // 'end_date': document.getElementById('end-date').value,
-        // 'end_time': document.getElementById('end-time').value
-    };
-
-    axios.post('http://127.0.0.1:8000/layers/', data)
-  
-        .then(res => {
-            console.log(res);
-            setLastCreated(res.data.id);
-        })
-        
-        .catch(err => {
-            console.log('err:', err);
-        });
-
-};
-
-
 export default function LayersPost({setLastCreated, open, setOpen}) {
 
     const [startDate, setStartDate] = React.useState(null);
     const [startTime, setStartTime] = React.useState(null);
     const [endDate, setEndDate] = React.useState(null);
     const [endTime, setEndTime] = React.useState(null);
+
+    const create = () => {
+
+        const data = {
+            'title': document.getElementById('title').value,
+            'description': document.getElementById('description').value,
+            // 'parent': document.getElementById('parent').value,
+            // 'start_date': document.getElementById('start-date').value,
+            // 'start_time': document.getElementById('start-time').value,
+            // 'end_date': document.getElementById('end-date').value,
+            // 'end_time': document.getElementById('end-time').value
+        };
+    
+        axios.post('http://127.0.0.1:8000/layers/', data)
+      
+            .then(res => {
+                console.log(res);
+                setLastCreated(res.data.id);
+                setOpen(false);
+            })
+            
+            .catch(err => {
+                console.log('err:', err);
+            });
+    
+    };
 
     return (
         <Modal
@@ -101,7 +101,7 @@ export default function LayersPost({setLastCreated, open, setOpen}) {
                 <TextField id="title" label="Standard" variant="standard" inputProps={{maxlength: 64}} />
                 <TextField id="description" label="Outlined" variant="outlined" />
                 <input type="checkbox"></input>
-                <input type="reset" onClick={() => create(setLastCreated)}></input>
+                <input type="reset" onClick={create}></input>
                 <select name="choice" id="parent">
                     <option value="first">First Value</option>
                     <option value="second" selected>Second Value</option>
