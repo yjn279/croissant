@@ -5,10 +5,13 @@ import LayersPost from '@components/layers/post';
 
 
 export default function Layers() {
+
+    const [lastCreated, setLastCreated] = React.useState(null);
+
     return (
         <>
-            <LayersGet />
-            <LayersPost />
+            {/* <LayersGet lastCreated={lastCreated} /> */}
+            <LayersPost setLastCreated={setLastCreated} />
         </>
     )
 }

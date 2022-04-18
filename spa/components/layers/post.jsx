@@ -10,7 +10,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 
-const create = () => {
+const create = (setLastCreated) => {
 
     const data = {
         'title': document.getElementById('title').value,
@@ -26,6 +26,7 @@ const create = () => {
   
         .then(res => {
             console.log(res);
+            setLastCreated(res.data.id);
         })
         
         .catch(err => {
@@ -35,7 +36,7 @@ const create = () => {
 };
 
 
-export default function LayersPost() {
+export default function LayersPost({setLastCreated}) {
 
     const [startDate, setStartDate] = React.useState(null);
     const [startTime, setStartTime] = React.useState(null);
@@ -78,7 +79,7 @@ export default function LayersPost() {
             <TextField id="title" label="Standard" variant="standard" inputProps={{maxlength: 64}} />
             <TextField id="description" label="Outlined" variant="outlined" />
             <input type="checkbox"></input>
-            <input type="reset" onClick={create}></input>
+            <input type="reset" onClick={() => create(setLastCreated)}></input>
             <select name="choice" id="parent">
                 <option value="first">First Value</option>
                 <option value="second" selected>Second Value</option>

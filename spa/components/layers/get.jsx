@@ -32,11 +32,10 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-export default function LayersGet() {
+export default function LayersGet({lastCreated}) {
 
     const [layers, setLayers] = React.useState([]);
-    React.useEffect(() => {get(setLayers)}, []);
-    console.log(layers);
+    React.useEffect(() => {get(setLayers)}, [lastCreated]);
 
     return (
         <Box sx={{ width: '50%' }}>
