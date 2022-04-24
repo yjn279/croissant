@@ -26,6 +26,7 @@ const style = {
     p: 4,
 };
 
+
 const currencies = [
     {
       value: 'piano',
@@ -66,11 +67,7 @@ export default function LayersPost({setLastCreated, open, setOpen}) {
     const [startTime, setStartTime] = React.useState(null);
     const [endDate, setEndDate] = React.useState(null);
     const [endTime, setEndTime] = React.useState(null);
-    const [currency, setCurrency] = React.useState('EUR');
-
-     const handleChange = (event) => {
-        setCurrency(event.target.value);
-     };
+    const [currency, setCurrency] = React.useState('piano');
 
     
 
@@ -122,7 +119,7 @@ export default function LayersPost({setLastCreated, open, setOpen}) {
                     select
                     label="入れる予定日を選択"
                     value={currency}
-                    onChange={handleChange}
+                    onChange={(e) => setCurrency(e.target.value)}
                     helperText="Please select your currency"
                 >
                     {currencies.map((option) => (
