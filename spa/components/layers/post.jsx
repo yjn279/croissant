@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 
@@ -24,6 +25,14 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
+
+
+const currencies = [
+    {
+      value: 'piano',
+      label: 'ピアノ',
+    },
+];
 
 
 const create = (setLastCreated) => {
@@ -58,6 +67,9 @@ export default function LayersPost({setLastCreated, open, setOpen}) {
     const [startTime, setStartTime] = React.useState(null);
     const [endDate, setEndDate] = React.useState(null);
     const [endTime, setEndTime] = React.useState(null);
+    const [currency, setCurrency] = React.useState('piano');
+
+    
 
     return (
         <Modal
@@ -70,43 +82,52 @@ export default function LayersPost({setLastCreated, open, setOpen}) {
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                         id="start-date"
-                        label='Basic example'
+                        label='開始日'
                         value={startDate}
                         onChange={date => setStartDate(date)}
                         renderInput={params => <TextField {...params} />}
                     />
                     <TimePicker
                         id="start-time"
-                        label='Basic example'
+                        label='開始時刻'
                         value={startTime}
                         onChange={time => setStartTime(time)}
                         renderInput={params => <TextField {...params} />}
                     />
                     <DatePicker
                         id="end-date"
-                        label='Basic example'
+                        label='終了日'
                         value={endDate}
                         onChange={date => setEndDate(date)}
                         renderInput={params => <TextField {...params} />}
                     />
                     <TimePicker
                         id="end-time"
-                        label='Basic example'
+                        label='終了時刻'
                         value={endTime}
                         onChange={time => setEndTime(time)}
                         renderInput={params => <TextField {...params} />}
                     />
                 </LocalizationProvider>
 
-                <TextField id="title" label="Standard" variant="standard" inputProps={{maxlength: 64}} />
-                <TextField id="description" label="Outlined" variant="outlined" />
-                <input type="checkbox"></input>
-                <input type="reset" onClick={() => create(setLastCreated)}></input>
-                <select name="choice" id="parent">
-                    <option value="first">First Value</option>
-                    <option value="second" selected>Second Value</option>
-                    <option value="third">Third Value</option>
-                </select>
+                <TextField id="title" className="mb-5" label="タイトル" variant="standard" inputProps={{maxlength: 64}} />
+                <TextField id="description" label="詳細" variant="outlined" />
+                <Button variant="contained" onClick={() => create(setLastCreated)} >戻る</Button>
+                <Button variant="contained" onClick={() => create(setLastCreated)} >保存</Button>  
+                <TextField
+                    id="outlined-select-currency"
+                    select
+                    label="入れる予定日を選択"
+                    value={currency}
+                    onChange={(e) => setCurrency(e.target.value)}
+                    helperText="Please select your currency"
+                >
+                    {currencies.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
             </Box>
         </Modal>
     );
